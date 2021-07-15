@@ -65,8 +65,11 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    void onActionAddProduct(ActionEvent event) {
-
+    void onActionAddProduct(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/AddProductMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
