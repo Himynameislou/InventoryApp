@@ -85,8 +85,11 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    void onActionModifyPart(ActionEvent event) {
-
+    void onActionModifyPart(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/ModifyPartMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
