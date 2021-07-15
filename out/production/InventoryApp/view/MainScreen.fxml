@@ -14,16 +14,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainScreenController">
    <children>
+      <Button layoutX="937.0" layoutY="368.0" mnemonicParsing="false" onAction="#onActionExitApp" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9 #008dc9#008dc9 #008dc9#008dc9;" text="Exit" textFill="WHITE" />
       <Label layoutX="29.0" layoutY="57.0" style="-fx-font-weight: bold;" text="Inventory Management System">
          <font>
             <Font name="Microsoft Sans Serif" size="17.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="29.0" layoutY="79.0" prefHeight="270.0" prefWidth="480.0" style="-fx-border-color: #008dc9#008dc9; -fx-border-radius: 15; -fx-border-width: 3;">
+      <AnchorPane layoutX="25.0" layoutY="79.0" prefHeight="270.0" prefWidth="450.0" style="-fx-border-color: #008dc9#008dc9; -fx-border-radius: 15; -fx-border-width: 3;">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="270.0" prefWidth="480.0" spacing="15.0">
+            <VBox alignment="TOP_CENTER" prefHeight="270.0" prefWidth="450.0" spacing="10.0">
                <children>
                   <GridPane prefHeight="30.0" prefWidth="390.0">
                     <columnConstraints>
@@ -37,37 +38,104 @@
                         <Label text="Parts">
                            <font>
                               <Font name="Microsoft Sans Serif" size="13.0" />
-                           </font></Label>
-                        <TextField alignment="TOP_LEFT" promptText="Search by Part ID or Name" GridPane.columnIndex="1">
+                           </font>
+                        </Label>
+                        <TextField fx:id="partSearchField" alignment="TOP_LEFT" promptText="Search by Part ID or Name" GridPane.columnIndex="1">
                            <font>
                               <Font name="Microsoft Sans Serif" size="13.0" />
-                           </font></TextField>
+                           </font>
+                        </TextField>
                      </children>
                      <padding>
                         <Insets left="15.0" right="15.0" top="20.0" />
                      </padding>
                   </GridPane>
-                  <TableView maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="250.0" prefWidth="450.0" >
+                  <TableView fx:id="partTableView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="250.0" prefWidth="430.0">
                     <columns>
-                      <TableColumn prefWidth="95.0" text="Part ID" />
-                      <TableColumn prefWidth="95.0" text="Part Name" />
-                        <TableColumn prefWidth="95.0" text="Inventory Level" />
-                        <TableColumn prefWidth="140.0" text="Price/Cost per Unit" />
+                      <TableColumn fx:id="partIDCol" prefWidth="106.5" text="Part ID" />
+                      <TableColumn fx:id="partNameCol" prefWidth="106.5" text="Part Name" />
+                        <TableColumn fx:id="partInvCol" prefWidth="106.5" text="Inventory Level" />
+                        <TableColumn fx:id="partCostCol" prefWidth="106.5" text="Price/Cost per Unit" />
                     </columns>
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Add" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#onActionAddPart" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Add" textFill="WHITE">
                            <font>
                               <Font name="Microsoft Sans Serif" size="13.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Modify" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#onActionModifyPart" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Modify" textFill="WHITE">
                            <font>
                               <Font name="Microsoft Sans Serif" size="13.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Delete" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#onActionDeletePart" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font name="Microsoft Sans Serif" size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets right="30.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="519.0" layoutY="79.0" prefHeight="270.0" prefWidth="450.0" style="-fx-border-color: #008dc9#008dc9; -fx-border-radius: 15; -fx-border-width: 3;">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="270.0" prefWidth="450.0" spacing="10.0">
+               <children>
+                  <GridPane prefHeight="30.0" prefWidth="390.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Products">
+                           <font>
+                              <Font name="Microsoft Sans Serif" size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="productSearchField" alignment="TOP_LEFT" promptText="Search by Product ID or Name" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="Microsoft Sans Serif" size="13.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="15.0" top="20.0" />
+                     </padding>
+                  </GridPane>
+                  <TableView fx:id="productTableView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="250.0" prefWidth="430.0">
+                     <columns>
+                        <TableColumn fx:id="productIDCol" prefWidth="106.5" text="Product ID" />
+                        <TableColumn fx:id="productNameCol" prefWidth="106.5" text="Product Name" />
+                        <TableColumn fx:id="productInvCol" prefWidth="106.5" text="Inventory Level" />
+                        <TableColumn fx:id="productPriceCol" prefWidth="106.5" text="Price/Cost per Unit" />
+                     </columns>
+                  </TableView>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onActionAddProduct" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Add" textFill="WHITE">
+                           <font>
+                              <Font name="Microsoft Sans Serif" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onActionModifyProduct" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Modify" textFill="WHITE">
+                           <font>
+                              <Font name="Microsoft Sans Serif" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onActionDeleteProduct" style="-fx-background-color: #008dc9#008dc9 #008dc9#008dc9;" text="Delete" textFill="WHITE">
                            <font>
                               <Font name="Microsoft Sans Serif" size="13.0" />
                            </font>
