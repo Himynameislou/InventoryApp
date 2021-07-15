@@ -81,7 +81,7 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void onActionExitApp(ActionEvent event) {
-
+        System.exit(0);
     }
 
     @FXML
