@@ -162,11 +162,6 @@ public class MainScreenController implements Initializable {
         partTableView.setItems(sortedPartData);
 
 
-
-
-
-
-
         /**
          * Setting Cells for Products TableView
          */
@@ -179,6 +174,37 @@ public class MainScreenController implements Initializable {
         productNameCol.setCellValueFactory(new PropertyValueFactory<>("productName"));
         productInvCol.setCellValueFactory(new PropertyValueFactory<>("productStock"));
         productPriceCol.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
+
+        /**
+         * Searching through partTableView without the need of a search button.
+         */
+        //Wrapping list in a filtered list
+        FilteredList<Product> filteredProductList = new FilteredList<>(getAllProducts(), b -> true);
+        //Setting filter predicate for when filter changes
+        productSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredProductList.setPredicate(product -> {
+                //if text field is empty then display all data
+                if(newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (product.getProductName().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+                    return true; // Filter matches first name.
+                }
+                else if (String.valueOf(product.getProductID()).indexOf(lowerCaseFilter)!=-1)
+                    return true;
+                else
+                    return false; // Does not match.
+
+            });
+        });
+        //wrapping filtered list in a sorted list
+        SortedList<Product> sortedProductData = new SortedList<>(filteredProductList);
+        //Bind the SortedList comparator to the TableView comparator. So that sorting fully works
+        sortedProductData.comparatorProperty().bind(productTableView.comparatorProperty());
+        //Adding sorted and filtered data to the table.
+        productTableView.setItems(sortedProductData);
+
     }
 
 
