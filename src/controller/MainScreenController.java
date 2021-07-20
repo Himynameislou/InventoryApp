@@ -2,6 +2,7 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -112,25 +113,8 @@ public class MainScreenController implements Initializable {
      * Next few methods deal with adding, updating, removing objects as well as searching.
      */
 
-    /**
-     * Method will search through parts array list
-     */
-    @FXML
-    void partSearchAction(ActionEvent event)
-    {
-        String partSearchString = partSearchField.getText();
-
-        for(Part genPart : getAllParts())
-        {
-            if(String.valueOf(genPart.getId()).contains(partSearchString) || genPart.getName().contains(partSearchString))
-            {
-                getFilteredParts().add(genPart);
-            }
-        }
-        partTableView.setItems(getFilteredParts());
 
 
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -146,6 +130,41 @@ public class MainScreenController implements Initializable {
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInvCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        /**
+         * Searching through partTableView without the need of a search button.
+         */
+        //Wrapping list in a filtered list
+        FilteredList<Part> filteredPartList = new FilteredList<>(getAllParts(), b -> true);
+        //Setting filter predicate for when filter changes
+        partSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredPartList.setPredicate(part -> {
+                //if text field is empty then display all data
+                if(newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (part.getName().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+                    return true; // Filter matches first name.
+                }
+                else if (String.valueOf(part.getId()).indexOf(lowerCaseFilter)!=-1)
+                    return true;
+                else
+                    return false; // Does not match.
+
+            });
+        });
+        //wrapping filtered list in a sorted list
+        SortedList<Part> sortedPartData = new SortedList<>(filteredPartList);
+        //Bind the SortedList comparator to the TableView comparator. So that sorting fully works
+        sortedPartData.comparatorProperty().bind(partTableView.comparatorProperty());
+        //Adding sorted and filtered data to the table.
+        partTableView.setItems(sortedPartData);
+
+
+
+
+
 
 
         /**
