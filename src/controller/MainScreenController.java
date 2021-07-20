@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,8 @@ import model.Product;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static model.DataProvider.*;
 
 public class MainScreenController implements Initializable {
     Stage stage;
@@ -104,6 +108,30 @@ public class MainScreenController implements Initializable {
 
     }
 
+    /**
+     * Next few methods deal with adding, updating, removing objects as well as searching.
+     */
+
+    /**
+     * Method will search through parts array list
+     */
+    @FXML
+    void partSearchAction(ActionEvent event)
+    {
+        String partSearchString = partSearchField.getText();
+
+        for(Part genPart : getAllParts())
+        {
+            if(String.valueOf(genPart.getId()).contains(partSearchString) || genPart.getName().contains(partSearchString))
+            {
+                getFilteredParts().add(genPart);
+            }
+        }
+        partTableView.setItems(getFilteredParts());
+
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /**
@@ -133,4 +161,7 @@ public class MainScreenController implements Initializable {
         productInvCol.setCellValueFactory(new PropertyValueFactory<>("productStock"));
         productPriceCol.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
     }
+
+
+
 }
