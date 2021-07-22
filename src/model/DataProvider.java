@@ -60,4 +60,17 @@ public class DataProvider {
     {
         return allProducts;
     }
+
+    /**
+     * Initial partID set in order to create other unique IDs.
+     */
+    private static int partID = 0;
+
+    /**
+     * Method Generates new unique ID.
+     */
+    public static int getUniquePartID()
+    {
+        return ++partID;
+    }
 }
