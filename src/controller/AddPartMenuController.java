@@ -92,6 +92,7 @@ public class AddPartMenuController implements Initializable {
         int partMachineID;
         String machineCheck = partMachineIDTextField.getText();
 
+
         String compName;
 
         boolean partAdded = false;
