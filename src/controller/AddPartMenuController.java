@@ -98,36 +98,45 @@ public class AddPartMenuController implements Initializable {
 
         if(partName.isEmpty() || inventoryCheck.isEmpty() || priceCheck.isEmpty() || maxCheck.isEmpty() || minCheck.isEmpty() || machineCheck.isEmpty())
         {
-            alertMessage(1);
-        } else
-        {
-            if((partMin < 0) || (partMin > partMax)){
-                alertMessage(2);
-            }
-        } else{
-            if((partMin < partMax) && (partMin <= inventory) && (inventory <= partMax)){
-                if(inHouseRB.isSelected()){
+            alertMessageType(1);
+        } else if((partMin < 0) || (partMin > partMax))
+            {
+                alertMessageType(2);
+            } else{
+            if((partMin < partMax) && (partMin <= inventory) && (inventory <= partMax))
+            {
+
+                if(inHouseRB.isSelected())
+                {
                     partMachineID = Integer.parseInt(partMachineIDTextField.getText());
                     InHouse newInHousePartAdd = new InHouse(id, partName, partPrice, inventory, partMin, partMax, partMachineID);
                     newInHousePartAdd.setId(DataProvider.getUniquePartID());
                     DataProvider.addPart(newInHousePartAdd);
                     partAdded = true;
                 }
-                if(outsourcedRB.isSelected()){
+
+                if(outsourcedRB.isSelected())
+                {
                     compName = partMachineIDTextField.getText();
                     OutSourced newOutSourcePartAdd = new OutSourced(id, partName, partPrice, inventory, partMin, partMax, compName);
                     newOutSourcePartAdd.setId(DataProvider.getUniquePartID());
                     DataProvider.addPart(newOutSourcePartAdd);
                     partAdded = true;
                 }
-                if(partAdded){
+
+                if(partAdded)
+                {
                     onActionCancelBtn(event);
                 }
+            }
         }
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resourceBundle) {
+    }
 
-    private void alertMessage(int alertID){
+    private void alertMessageType(int alertID) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
         switch (alertID)
@@ -158,9 +167,4 @@ public class AddPartMenuController implements Initializable {
                 break;
         }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
-}
