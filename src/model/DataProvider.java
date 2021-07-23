@@ -73,4 +73,12 @@ public class DataProvider {
     {
         return ++partID;
     }
+    public static boolean swapPartModifyMenu(Part selectedPart){
+        if(allParts.contains(selectedPart)){
+            allParts.remove(selectedPart);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

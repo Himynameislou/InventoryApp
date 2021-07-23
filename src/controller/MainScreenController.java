@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.DataProvider;
@@ -65,6 +62,7 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private TableColumn<Product, Double> productPriceCol;
+    private static Part partSelected;
 
     @FXML
     void onActionAddPart(ActionEvent event) throws IOException {
@@ -99,10 +97,15 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void onActionModifyPart(ActionEvent event) throws IOException {
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/ModifyPartMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        partSelected = partTableView.getSelectionModel().getSelectedItem();
+        if(partSelected == null) {
+            alertMessageType(1);
+        } else {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/ModifyPartMenu.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
     }
 
     @FXML
@@ -110,15 +113,34 @@ public class MainScreenController implements Initializable {
 
     }
 
-    /**
-     * Next few methods deal with adding, updating, removing objects as well as searching.
-     */
+    public static Part selectPartModify(){
+        return partSelected;
+    }
+
+
+
+    private void alertMessageType(int alertID) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        switch (alertID)
+        {
+            case 1:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Part Addition");
+                alert.setContentText("Part must be selected");
+                alert.showAndWait();
+                break;
+
+
+        }
+    }
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         /**
         Setting Cells for Parts TableView
          */
