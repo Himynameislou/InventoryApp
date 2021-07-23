@@ -63,7 +63,7 @@
                         <Label text="Price/Cost" GridPane.rowIndex="3" />
                         <Label text="Max" GridPane.rowIndex="4" />
                         <Label fx:id="partTypeLabel" text="Machine ID" GridPane.rowIndex="5" />
-                        <TextField fx:id="partIDTextField" GridPane.columnIndex="1" />
+                        <TextField fx:id="partIDTextField" alignment="CENTER" disable="true" text="Auto Generated" GridPane.columnIndex="1" />
                         <TextField fx:id="partNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="partInventoryTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="partPriceCostTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />

@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import model.DataProvider;
 import model.InHouse;
 import model.OutSourced;
+import model.Part;
 
 import java.io.IOException;
 import java.net.URL;
@@ -71,65 +72,66 @@ public class AddPartMenuController implements Initializable {
         partTypeLabel.setText("Company Name");
     }
 
+
     @FXML
     void onActionSavePartBtn(ActionEvent event) throws IOException{
-        int id = 0;
+        /**
+         * For Loop that sets up and assigns unique ID for new parts
+         */
+        try {
+            int id = 0;
+            for (Part part : DataProvider.getAllParts()) {
+                if (part.getId() > id)
+                    id = (part.getId());
+                id = ++id;
+            }
 
-        String partName = partNameTextField.getText();
+            String partName = partNameTextField.getText();
+            int inventory = Integer.parseInt(partInventoryTextField.getText());
+            Double partPrice = Double.parseDouble(partPriceCostTextField.getText());
+            int partMax = Integer.parseInt(partMaxTextField.getText());
+            int partMin = Integer.parseInt(partMinTextField.getText());
+            int partMachineID;
+            String compName;
 
-        int inventory = Integer.parseInt(partInventoryTextField.getText());
-        String inventoryCheck = partInventoryTextField.getText();
+            boolean partAdded = false;
 
-        Double partPrice = Double.parseDouble(partPriceCostTextField.getText());
-        String priceCheck = partPriceCostTextField.getText();
-
-        int partMax = Integer.parseInt(partMaxTextField.getText());
-        String maxCheck = partMaxTextField.getText();
-
-        int partMin = Integer.parseInt(partMinTextField.getText());
-        String minCheck = partMinTextField.getText();
-
-        int partMachineID;
-        String machineCheck = partMachineIDTextField.getText();
-
-
-        String compName;
-
-        boolean partAdded = false;
-
-        if(partName.isEmpty() || inventoryCheck.isEmpty() || priceCheck.isEmpty() || maxCheck.isEmpty() || minCheck.isEmpty() || machineCheck.isEmpty())
-        {
-            alertMessageType(1);
-        } else if((partMin < 0) || (partMin > partMax))
-            {
+            if (partName.isEmpty()) {
+                alertMessageType(1);
+            } else if ((partMin < 0) || (partMin > partMax)) {
+                alertMessageType(3);
+            } else if (!((partMin <= inventory) && (partMax >= inventory))) {
                 alertMessageType(2);
-            } else{
-            if((partMin < partMax) && (partMin <= inventory) && (inventory <= partMax))
-            {
+            } else {
 
-                if(inHouseRB.isSelected())
-                {
-                    partMachineID = Integer.parseInt(partMachineIDTextField.getText());
-                    InHouse newInHousePartAdd = new InHouse(id, partName, partPrice, inventory, partMin, partMax, partMachineID);
-                    newInHousePartAdd.setId(DataProvider.getUniquePartID());
-                    DataProvider.addPart(newInHousePartAdd);
-                    partAdded = true;
+
+                try{
+                    if (inHouseRB.isSelected()) {
+                        partMachineID = Integer.parseInt(partMachineIDTextField.getText());
+                        InHouse newInHousePartAdd = new InHouse(id, partName, partPrice, inventory, partMin, partMax, partMachineID);
+                        //newInHousePartAdd.setId(DataProvider.getUniquePartID());
+                        DataProvider.addPart(newInHousePartAdd);
+                        partAdded = true;
+                    }
+                }catch (Exception e){
+                    alertMessageType(6);
                 }
 
-                if(outsourcedRB.isSelected())
-                {
+                if (outsourcedRB.isSelected()) {
+
                     compName = partMachineIDTextField.getText();
                     OutSourced newOutSourcePartAdd = new OutSourced(id, partName, partPrice, inventory, partMin, partMax, compName);
-                    newOutSourcePartAdd.setId(DataProvider.getUniquePartID());
+                    //newOutSourcePartAdd.setId(DataProvider.getUniquePartID());
                     DataProvider.addPart(newOutSourcePartAdd);
                     partAdded = true;
                 }
 
-                if(partAdded)
-                {
+                if (partAdded) {
                     onActionCancelBtn(event);
                 }
             }
+        } catch (Exception e){
+            alertMessageType(5);
         }
     }
 
@@ -145,7 +147,7 @@ public class AddPartMenuController implements Initializable {
             case 1:
                 alert.setTitle("Error");
                 alert.setHeaderText("Error: Part Addition");
-                alert.setContentText("Cannot have blank fields");
+                alert.setContentText("Cannot have blank name field");
                 alert.showAndWait();
                 break;
             case 2:
@@ -156,16 +158,23 @@ public class AddPartMenuController implements Initializable {
                 break;
             case 3:
                 alert.setTitle("Error");
-                alert.setHeaderText("Error: Min Value");
+                alert.setHeaderText("Error: Min/Max Value");
                 alert.setContentText("Min value must be greater than 0 and less than max value");
                 alert.showAndWait();
                 break;
             case 5:
                 alert.setTitle("Error");
-                alert.setHeaderText("Error: Max Value");
-                alert.setContentText("Max value must be greater than Inventory value and min value");
+                alert.setHeaderText("Error: Blank fields");
+                alert.setContentText("Cannot have blank fields");
                 alert.showAndWait();
                 break;
+            case 6:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Machine ID");
+                alert.setContentText("Invalid entry. Must be integers only");
+                alert.showAndWait();
+                break;
+
         }
     }
     }
