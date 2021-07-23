@@ -81,4 +81,12 @@ public class DataProvider {
             return false;
         }
     }
+    public static boolean deletePartMain(Part partToDelete){
+        if(allParts.contains(partToDelete)){
+            allParts.remove(partToDelete);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

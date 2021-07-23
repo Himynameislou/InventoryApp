@@ -18,6 +18,7 @@ import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static model.DataProvider.*;
@@ -82,7 +83,13 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void onActionDeletePart(ActionEvent event) {
-
+        partSelected = partTableView.getSelectionModel().getSelectedItem();
+        if(partSelected == null) {
+            alertMessageType(1);
+        } else {
+            alertMessageType(2);
+            DataProvider.deletePartMain(selectPartModify());
+        }
     }
 
     @FXML
@@ -128,6 +135,12 @@ public class MainScreenController implements Initializable {
                 alert.setTitle("Error");
                 alert.setHeaderText("Error: Part Addition");
                 alert.setContentText("Part must be selected");
+                alert.showAndWait();
+                break;
+            case 2:
+                alert.setTitle("Warning");
+                alert.setHeaderText("Warning: Part Deletion");
+                alert.setContentText("Are you sure you want to delete selected part?");
                 alert.showAndWait();
                 break;
 
