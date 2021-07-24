@@ -87,8 +87,15 @@ public class MainScreenController implements Initializable {
         if(partSelected == null) {
             alertMessageType(1);
         } else {
-            alertMessageType(2);
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Warning");
+            confirmationAlert.setHeaderText("Warning: Part Deletion");
+            confirmationAlert.setContentText("Are you sure you want to delete selected part?");
+            Optional<ButtonType> cancelOption = confirmationAlert.showAndWait();
+
+            if(cancelOption.isPresent() && cancelOption.get() == ButtonType.OK){
             DataProvider.deletePartMain(selectPartModify());
+            }
         }
     }
 
@@ -126,8 +133,9 @@ public class MainScreenController implements Initializable {
 
 
 
-    private void alertMessageType(int alertID) {
+    public static void alertMessageType(int alertID) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+
 
         switch (alertID)
         {
@@ -137,14 +145,6 @@ public class MainScreenController implements Initializable {
                 alert.setContentText("Part must be selected");
                 alert.showAndWait();
                 break;
-            case 2:
-                alert.setTitle("Warning");
-                alert.setHeaderText("Warning: Part Deletion");
-                alert.setContentText("Are you sure you want to delete selected part?");
-                alert.showAndWait();
-                break;
-
-
         }
     }
 
