@@ -28,9 +28,8 @@ public class Main extends Application {
         InHouse keyboardPart1 = new InHouse(1,"Key Caps",30.00,12,4,15,101);
         InHouse keyboardPart2 = new InHouse(2,"Switches",24.99,10,4,40,102);
         InHouse keyboardPart3 = new InHouse(3,"Case",50.99,5,2,10,103);
-        InHouse keyboardPart4 = new InHouse(4,"Plate",20.33,2,1,10,104);
-        InHouse keyboardPart5 = new InHouse(5,"PCB",75.00,5,4,15,105);
-        OutSourced keyboardPart6 = new OutSourced(6,"Artisan Caps",79.99,3,2,5,"Drop");
+        InHouse keyboardPart4 = new InHouse(4,"PCB",75.00,5,4,15,105);
+        OutSourced keyboardPart5 = new OutSourced(5,"Artisan Caps",79.99,3,2,5,"Drop");
 
         /**
         Pre-populated Products for App
@@ -49,7 +48,6 @@ public class Main extends Application {
         DataProvider.addPart(keyboardPart3);
         DataProvider.addPart(keyboardPart4);
         DataProvider.addPart(keyboardPart5);
-        DataProvider.addPart(keyboardPart6);
 
         /**
          * Adding products to Observable List via DataProvider class and addProduct static method
