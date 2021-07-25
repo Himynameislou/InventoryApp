@@ -65,7 +65,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="productIDTextField" editable="false" GridPane.columnIndex="1" />
+                        <TextField fx:id="productIDTextField" alignment="CENTER" disable="true" text="Auto Generated" GridPane.columnIndex="1" />
                         <TextField fx:id="productNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="productInventoryTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="productPriceTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />

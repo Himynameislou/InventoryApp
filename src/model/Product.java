@@ -3,6 +3,9 @@ package model;
 * Supplied class Part.java 
  */
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author Luis Vegerano
@@ -24,6 +27,23 @@ public class Product {
         this.productMin = productMin;
         this.productMax = productMax;
         this.productCompanyName = productCompanyName;
+    }
+    /**
+     * Observable list for associated product parts
+     */
+    private ObservableList<Part> associatedProductParts = FXCollections.observableArrayList();
+
+    /**
+     * Adding associated parts to product
+     */
+    public void addProductPart(Part part){
+        associatedProductParts.add(part);
+    }
+    /**
+     * Creates a list of all product parts
+     */
+    public ObservableList<Part> getAssociatedProductParts() {
+        return associatedProductParts;
     }
     /**
      * @return the productID
@@ -123,4 +143,6 @@ public class Product {
     public void setProductCompanyName(String productCompanyName) {
         this.productCompanyName = productCompanyName;
     }
+
+
 }

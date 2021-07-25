@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddProductMenuController">
    <children>
       <HBox prefHeight="82.0" prefWidth="1000.0">
@@ -27,7 +26,7 @@
                   <Insets left="15.0" top="75.0" />
                </padding>
             </Label>
-            <TextField fx:id="compPartSearch">
+            <TextField fx:id="compPartSearch" promptText="Search by Part ID or NameSearch by Part ID or Name">
                <HBox.margin>
                   <Insets left="720.0" top="70.0" />
                </HBox.margin>
@@ -66,7 +65,7 @@
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="productIDTextField" GridPane.columnIndex="1" />
+                        <TextField fx:id="productIDTextField" alignment="CENTER" disable="true" text="Auto Generated" GridPane.columnIndex="1" />
                         <TextField fx:id="productNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="productInventoryTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="productPriceTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />

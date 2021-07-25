@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -11,8 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.DataProvider;
-import model.Part;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +24,10 @@ import static model.DataProvider.*;
 public class AddProductMenuController implements Initializable {
     Stage stage;
     Parent scene;
+    /**
+     * List of associated parts
+     */
+    private ObservableList<Part> assParts =FXCollections.observableArrayList();
 
     @FXML
     private TextField compPartSearch;
@@ -61,23 +66,29 @@ public class AddProductMenuController implements Initializable {
     private TableColumn<Part, Double> partCostCol;
 
     @FXML
-    private TableView<?> componentProductParts;
+    private TableView<Part> componentProductParts;
 
     @FXML
-    private TableColumn<?, ?> compPartIDCol;
+    private TableColumn<Part, Integer> compPartIDCol;
 
     @FXML
-    private TableColumn<?, ?> compPartNameCol;
+    private TableColumn<Part, String> compPartNameCol;
 
     @FXML
-    private TableColumn<?, ?> compPartInventoryCol;
+    private TableColumn<Part, Integer> compPartInventoryCol;
 
     @FXML
-    private TableColumn<?, ?> compPartPriceCol;
+    private TableColumn<Part, Double> compPartPriceCol;
 
     @FXML
     void onActionAddPartToProduct(ActionEvent event) {
-
+        Part selectAssociatedPart = partTableView.getSelectionModel().getSelectedItem();
+        if(selectAssociatedPart == null){
+            alertMessageType(1);
+        } else {
+            assParts.add(selectAssociatedPart);
+            componentProductParts.setItems(assParts);
+        }
     }
 
     @FXML
@@ -94,9 +105,85 @@ public class AddProductMenuController implements Initializable {
     }
 
     @FXML
-    void onActionSave(ActionEvent event) {
+    void onActionSave(ActionEvent event) throws IOException{
+        /**
+         * For Loop that sets up and assigns unique ID for new parts
+         */
+        try {
+            int id = 0;
+            for (Product product : DataProvider.getAllProducts()) {
+                if (product.getProductID() > id)
+                    id = (product.getProductID());
+                id = ++id;
+            }
 
+            String productName = productNameTextField.getText();
+            int inventory = Integer.parseInt(productInventoryTextField.getText());
+            Double productPrice = Double.parseDouble(productPriceTextField.getText());
+            int productMax = Integer.parseInt(productMaxTextField.getText());
+            int productMin = Integer.parseInt(productMinTextField.getText());
+            String compName = null;
+
+
+            if (productName.isEmpty()) {
+                alertMessageType(2);
+            } else if ((productMin < 0) || (productMin > productMax)) {
+                alertMessageType(3);
+            } else if (!((productMin <= inventory) && (productMax >= inventory))) {
+                alertMessageType(4);
+            } else {
+                Product newProduct = new Product(id, productName, productPrice, inventory, productMin, productMax, compName);
+                for(Part part: assParts){
+                    newProduct.addProductPart(part);
+                }
+                DataProvider.addProduct(newProduct);
+                onActionCancel(event);
+            }
+        } catch (Exception e){
+            alertMessageType(5);
+        }
     }
+
+
+
+    private void alertMessageType(int alertID) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        switch (alertID) {
+            case 1:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Part Addition");
+                alert.setContentText("Must select part from parts table");
+                alert.showAndWait();
+                break;
+            case 2:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Product Name");
+                alert.setContentText("Product name field cannot remain blank");
+                alert.showAndWait();
+                break;
+            case 3:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Min/Max Value");
+                alert.setContentText("Min value must be greater than 0 and less than max value");
+                alert.showAndWait();
+                break;
+            case 4:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Invalid Inventory number");
+                alert.setContentText("Inventory must be between min and max values");
+                alert.showAndWait();
+                break;
+            case 5:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Blank fields");
+                alert.setContentText("Cannot have blank fields");
+                alert.showAndWait();
+                break;
+        }
+    }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -113,6 +200,15 @@ public class AddProductMenuController implements Initializable {
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        /**
+         * Setting associated parts to table view.
+         */
+        //componentProductParts.setItems(getAssociatedProductParts());
+        compPartIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        compPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        compPartInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        compPartPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         /**
          * Searching through partTableView without the need of a search button.

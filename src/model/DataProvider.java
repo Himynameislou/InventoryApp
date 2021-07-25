@@ -22,6 +22,8 @@ public class DataProvider {
      */
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
+
+
     /**
     Method for adding parts
      */
