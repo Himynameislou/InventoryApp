@@ -1,12 +1,10 @@
 package model;
-/**
-* Supplied class Part.java 
- */
+
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**
+/** Class for Product
  *
  * @author Luis Vegerano
  */
@@ -19,6 +17,16 @@ public class Product {
     private int productMax;
     private String productCompanyName;
 
+    /**
+     * Constructor for Product
+     * @param productID
+     * @param productName
+     * @param productPrice
+     * @param productStock
+     * @param productMin
+     * @param productMax
+     * @param productCompanyName
+     */
     public Product(int productID, String productName, double productPrice, int productStock, int productMin, int productMax, String productCompanyName) {
         this.productID = productID;
         this.productName = productName;

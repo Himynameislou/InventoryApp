@@ -4,7 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
-* This class holds all of the inventory. Both Parts and Products. It also holds methods for editing/adding parts/products to the inventory.
+* This class holds all of the inventory. Both Parts and Products are included. It also holds methods for editing/adding parts/products to the inventory.
+ * @author luisvegerano
 * */
 public class DataProvider {
     /**
@@ -84,7 +85,7 @@ public class DataProvider {
         }
     }
 
-    //
+
     public static boolean swapProductModifyMenu(Product selectedProduct){
         if(allProducts.contains(selectedProduct)){
             allProducts.remove(selectedProduct);

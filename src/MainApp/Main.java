@@ -10,6 +10,13 @@ import model.InHouse;
 import model.OutSourced;
 import model.Product;
 
+/**
+ * Inventory Management application allows user to create a list of parts and products. Products also have associated parts within them.
+ *
+ * A future feature that would be helpful would be the ability to re-index the part/product IDs.
+ *
+ * @author luisvegerano
+ */
 public class Main extends Application {
 
     @Override
@@ -57,10 +64,6 @@ public class Main extends Application {
         DataProvider.addProduct(kB3);
         DataProvider.addProduct(kB4);
 
-
-
         launch(args);
     }
-
-
 }

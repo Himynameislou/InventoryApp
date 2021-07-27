@@ -17,45 +17,90 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class that is responsible for all modifications done to parts in the inventory. Gives user functionality to modify part name, inventory, price, max, min, and machine ID.
+ * @author luisvegerano
+ */
 public class ModifyPartMenuController implements Initializable {
     Stage stage;
     Parent scene;
 
+    /**
+     * Radio Button - InHouse
+     */
     @FXML
     private RadioButton inHouseRB;
 
+    /**
+     * Toggle Group for Radio Buttons
+     */
     @FXML
     private ToggleGroup tgPartSource;
 
+    /**
+     * Radio Button - Outsourced
+     */
     @FXML
     private RadioButton outsourcedRB;
 
+    /**
+     * Part Type Label
+     */
     @FXML
     private Label partTypeLabel;
 
+    /**
+     * Part ID Text Field
+     */
     @FXML
     private TextField partIDTextField;
 
+    /**
+     * Part Name Text Field
+     */
     @FXML
     private TextField partNameTextField;
 
+    /**
+     * Part Inventory Textfield
+     */
     @FXML
     private TextField partInventoryTextField;
 
+    /**
+     * Part Cost Textfield
+     */
     @FXML
     private TextField partPriceCostTextField;
 
+    /**
+     * Part Inventory Textfield - Max
+     */
     @FXML
     private TextField partMaxTextField;
 
+    /**
+     * Part Machine ID Textfield
+     */
     @FXML
     private TextField partMachineIDTextField;
 
+    /**
+     * Part Inventory Textfield - Min
+     */
     @FXML
     private TextField partMinTextField;
 
+    /**
+     *Variable created to link back to main page selected part
+     */
     private Part partToModify;
 
+    /**
+     * Cancels out of Add Part menu
+     * @param event Cancel Button Clicked
+     * @throws IOException FXMLLoader
+     */
     @FXML
     void onActionCancelBtn(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -64,16 +109,30 @@ public class ModifyPartMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Changes Part Type label when In House Radio Button Clicked
+     * @param event In House Radio Button Clicked
+     */
     @FXML
     void onActionInHouseRB(ActionEvent event) {
         partTypeLabel.setText("Machine ID");
     }
 
+    /**
+     * Changes Part Type label when Outsourced Radio Button Clicked
+     * @param event Outsourced Radio Button Clicked
+     */
     @FXML
     void onActionOutsourcedRB(ActionEvent event) {
         partTypeLabel.setText("Company Name");
     }
 
+    /**
+     * Saves newly modified part.
+     * Adds part to array
+     * @param event Save Button Clicked
+     * @throws IOException FXMLLoader
+     */
     @FXML
     void onActionSaveModifyPartBtn(ActionEvent event) {
         try {
@@ -128,8 +187,10 @@ public class ModifyPartMenuController implements Initializable {
         }
     }
 
-
-
+    /**
+     * Method is used to call different warnings and alerts for user to confirm changes
+     * @param alertID Message type selector
+     */
     private void alertMessageType(int alertID) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -169,6 +230,11 @@ public class ModifyPartMenuController implements Initializable {
         }
     }
 
+    /**
+     * Initializes controller
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /**

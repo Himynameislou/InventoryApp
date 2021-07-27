@@ -4,7 +4,7 @@ package model;
  */
 
 /**
- *
+ * Class for Parts that extends to In House and Outsourced parts
  * @author Luis Vegerano
  */
 public abstract class Part {
@@ -13,7 +13,17 @@ public abstract class Part {
     private double price;
     private int stock;
     private int min;
-    private int max;    
+    private int max;
+
+    /**
+     * Constructor for Part
+     * @param id
+     * @param name
+     * @param price
+     * @param stock
+     * @param min
+     * @param max
+     */
     public Part(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
         this.name = name;

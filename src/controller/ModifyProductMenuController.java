@@ -22,6 +22,10 @@ import java.util.ResourceBundle;
 
 import static model.DataProvider.*;
 
+/**
+ * Controller class that is responsible for all modifications done to products in the inventory. Gives user functionality to modify product name, inventory, price, max, and min.
+ * @author luisvegerano
+ */
 public class ModifyProductMenuController implements Initializable{
     Stage stage;
     Parent scene;
@@ -30,60 +34,117 @@ public class ModifyProductMenuController implements Initializable{
      */
     private ObservableList<Part> assParts =FXCollections.observableArrayList();
 
+    /**
+     * Component Part Search Text Field
+     */
     @FXML
     private TextField compPartSearch;
 
+    /**
+     * Product ID Text Field
+     */
     @FXML
     private TextField productIDTextField;
 
+    /**
+     * Product Name Text Field
+     */
     @FXML
     private TextField productNameTextField;
 
+    /**
+     * Product Inventory Text Field
+     */
     @FXML
     private TextField productInventoryTextField;
 
+    /**
+     * Product Price Text Field
+     */
     @FXML
     private TextField productPriceTextField;
 
+    /**
+     * Product Inventory Text Field - Max
+     */
     @FXML
     private TextField productMaxTextField;
 
+    /**
+     * Product Inventory Text Field - Min
+     */
     @FXML
     private TextField productMinTextField;
 
+    /**
+     * Part TableView
+     */
     @FXML
     private TableView<Part> partTableView;
 
+    /**
+     * Part ID Column
+     */
     @FXML
     private TableColumn<Part, Integer> partIDCol;
 
+    /**
+     * Part Name Column
+     */
     @FXML
     private TableColumn<Part, String> partNameCol;
 
+    /**
+     * Part Inventory Column
+     */
     @FXML
     private TableColumn<Part, Integer> partInventoryCol;
 
+    /**
+     * Part Cost Column
+     */
     @FXML
     private TableColumn<Part, Double> partCostCol;
 
+    /**
+     * Associated Part TableView
+     */
     @FXML
     private TableView<Part> componentProductParts;
 
+    /**
+     * Associated Part ID Column
+     */
     @FXML
     private TableColumn<Part, Integer> compPartIDCol;
 
+    /**
+     * Associated Part Name Column
+     */
     @FXML
     private TableColumn<Part, String> compPartNameCol;
 
+    /**
+     * Associated Part Inventory Column
+     */
     @FXML
     private TableColumn<Part, Integer> compPartInventoryCol;
 
+    /**
+     * Associated Part Price Column
+     */
     @FXML
     private TableColumn<Part, Double> compPartPriceCol;
 
+    /**
+     * Variable created to help populate fields to edit with existing products
+     */
     Product productToModify;
-    int selectedProductIndex;
 
+    /**
+     * Adds selected part from Parts TableView and adds it to the Associated Parts TableView
+     * @param event Add Button Clicked
+     */
     @FXML
     void onActionAddPartToProduct(ActionEvent event) {
         Part selectAssociatedPart = partTableView.getSelectionModel().getSelectedItem();
@@ -95,9 +156,14 @@ public class ModifyProductMenuController implements Initializable{
         }
     }
 
+    /**
+     * Cancels out of Add Product Menu
+     * @param event Cancel Button Clicked
+     * @throws IOException FXMLLoader
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
-        Alert warning = new Alert(Alert.AlertType.CONFIRMATION, "Warning, edits are about to be saved. Do you wish to continue?");
+        Alert warning = new Alert(Alert.AlertType.CONFIRMATION, "Edits will be lost if you click ok. Do you wish to continue?");
         Optional<ButtonType> clickOkToCancel = warning.showAndWait();
         if(clickOkToCancel.isPresent() && clickOkToCancel.get() == ButtonType.OK){
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -107,17 +173,34 @@ public class ModifyProductMenuController implements Initializable{
         }
     }
 
+    /**
+     * Removes associated part from associated parts tableview. Warns user about removing items.
+     * @param event Remove Associated Part Button clicked
+     */
     @FXML
     void onActionDeleteAssocPart(ActionEvent event) {
         Part associatedPartToRemove = componentProductParts.getSelectionModel().getSelectedItem();
         if(associatedPartToRemove == null){
             alertMessageType(6);
-        } else {
-            assParts.remove(associatedPartToRemove);
-            componentProductParts.setItems(assParts);
+        }else if (associatedPartToRemove != null){
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Warning");
+            confirmationAlert.setHeaderText("Warning: Part Removal");
+            confirmationAlert.setContentText("Are you sure you want to remove associated part?");
+            Optional<ButtonType> removeOption = confirmationAlert.showAndWait();
+
+            if(removeOption.isPresent() && removeOption.get() == ButtonType.OK){
+                assParts.remove(associatedPartToRemove);
+                componentProductParts.setItems(assParts);
+            }
         }
     }
 
+    /**
+     * Saves new Product and associated parts to array then populates product tableview on main screen
+     * @param event Save Button Clicked
+     * @throws IOException FXMLLoader
+     */
     @FXML
     void onActionSave(ActionEvent event) throws IOException{
         /**
@@ -154,8 +237,10 @@ public class ModifyProductMenuController implements Initializable{
         }
     }
 
-
-
+    /**
+     * Method is used to call different warnings and alerts for user to confirm changes
+     * @param alertID Message Type Selector
+     */
     private void alertMessageType(int alertID) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -199,8 +284,12 @@ public class ModifyProductMenuController implements Initializable{
         }
     }
 
-
-
+    /**
+     * Initializes Controller.
+     * Parts and Associated Parts populated in TableViews. Search field set up to work here.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -23,53 +24,111 @@ import java.util.ResourceBundle;
 
 import static model.DataProvider.*;
 
+/**
+ * Controller class that users interact with in order to Add, Modify, or Delete Parts and Products.
+ * Run time error occurs if no part or product is selected.
+ * @author luisvegerano
+ */
 public class MainScreenController implements Initializable {
     Stage stage;
     Parent scene;
 
-
+    /**
+     * Text field for part search
+     */
     @FXML
     private TextField partSearchField;
 
+    /**
+     * Parts TableView
+     */
     @FXML
     private TableView<Part> partTableView;
 
+    /**
+     * Id column for partTableView
+     */
     @FXML
     private TableColumn<Part, Integer> partIDCol;
 
+    /**
+     * Name column for partTableView
+     */
     @FXML
     private TableColumn<Part, String> partNameCol;
 
+    /**
+     * Inventory column for partTableView
+     */
     @FXML
     private TableColumn<Part, Integer> partInvCol;
 
+    /**
+     * Cost column for partTableView
+     */
     @FXML
     private TableColumn<Part, Double> partCostCol;
 
+    /**
+     * Text field for product search
+     */
     @FXML
     private TextField productSearchField;
 
+    /**
+     * Product tableView
+     */
     @FXML
     private TableView<Product> productTableView;
 
+    /**
+     * Id column for productTableView
+     */
     @FXML
     private TableColumn<Product, Integer> productIDCol;
 
+    /**
+     * Name column for productTableView
+     */
     @FXML
     private TableColumn<Product, String> productNameCol;
 
+    /**
+     * Inventory column for productTableView
+     */
     @FXML
     private TableColumn<Product, Integer> productInvCol;
 
+    /**
+     * Price column for productTableView
+     */
     @FXML
     private TableColumn<Product, Double> productPriceCol;
+
+    /**
+     * Part object created to allow for clicking of part in tableView
+     */
     private static Part partSelected;
+
+    /**
+     * Product object created to allow for clicking of product in tableView
+     */
     private static Product productSelected;
 
+    /**
+     * Gets the product selected by user
+     * @return a Product object
+     */
     public static Product getProductSelected() {
         return productSelected;
     }
 
+    /**
+     * Loads Add Part enu
+     * Add method to add new part to array and tableView
+     * @param event Add button clicked
+     * @throws IOException FXMLLoader
+     */
     @FXML
     void onActionAddPart(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -78,6 +137,12 @@ public class MainScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Loads Add Product menu
+     * Add method to add new product to array and tableView
+     * @param event Add product button clicked
+     * @throws IOException FXMLLoader
+     */
     @FXML
     void onActionAddProduct(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -86,6 +151,11 @@ public class MainScreenController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Method deletes part from array and tableView
+     * Warns user if no part is selected and confirms if a part should be deleted
+     * @param event Delete part button clicked
+     */
     @FXML
     void onActionDeletePart(ActionEvent event) {
         partSelected = partTableView.getSelectionModel().getSelectedItem();
@@ -104,6 +174,11 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     * Method deletes product from array and tableView
+     * Warns user that a product has associated parts that need to be removed first before deleting product
+     * @param event Delete product button clicked
+     */
     @FXML
     void onActionDeleteProduct(ActionEvent event) {
         Product selectProductToDelete = productTableView.getSelectionModel().getSelectedItem();
@@ -126,11 +201,21 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     * Method shuts down application
+     * @param event Exit button clicked
+     */
     @FXML
     void onActionExitApp(ActionEvent event) {
         System.exit(0);
     }
 
+    /**
+     * Loads Modify Part menu
+     * If no part is selected a warning is sent to the user.
+     * @param event Modify button clicked
+     * @throws IOException FXMLLoader
+     */
     @FXML
     void onActionModifyPart(ActionEvent event) throws IOException {
         partSelected = partTableView.getSelectionModel().getSelectedItem();
@@ -144,6 +229,12 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     * Loads Modify Product menu
+     * If no product is selected a warning is sent to the user.
+     * @param event Modify product clicked
+     * @throws IOException FXMLLoader
+     */
     @FXML
     void onActionModifyProduct(ActionEvent event) throws IOException {
         productSelected = productTableView.getSelectionModel().getSelectedItem();
@@ -156,10 +247,18 @@ public class MainScreenController implements Initializable {
         stage.show();}
     }
 
+    /**
+     * Part object created to help with selection methods
+     * @return partSelected
+     */
     public static Part selectPartModify(){
         return partSelected;
     }
 
+    /**
+     * Method is used to call different warnings and alerts for user to confirm changes
+     * @param alertID Message type selector
+     */
     public static void alertMessageType(int alertID) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -187,9 +286,11 @@ public class MainScreenController implements Initializable {
         }
     }
 
-
-
-
+    /**
+     * Initializes controller
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -214,6 +315,8 @@ public class MainScreenController implements Initializable {
         //Setting filter predicate for when filter changes
         partSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredPartList.setPredicate(part -> {
+
+
                 //if text field is empty then display all data
                 if(newValue == null || newValue.isEmpty()){
                     return true;
