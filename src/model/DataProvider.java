@@ -83,6 +83,17 @@ public class DataProvider {
             return false;
         }
     }
+
+    //
+    public static boolean swapProductModifyMenu(Product selectedProduct){
+        if(allProducts.contains(selectedProduct)){
+            allProducts.remove(selectedProduct);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static boolean deletePartMain(Part partToDelete){
         if(allParts.contains(partToDelete)){
             allParts.remove(partToDelete);

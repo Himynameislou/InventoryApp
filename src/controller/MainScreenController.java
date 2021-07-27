@@ -64,6 +64,11 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Product, Double> productPriceCol;
     private static Part partSelected;
+    private static Product productSelected;
+
+    public static Product getProductSelected() {
+        return productSelected;
+    }
 
     @FXML
     void onActionAddPart(ActionEvent event) throws IOException {
@@ -123,15 +128,24 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    void onActionModifyProduct(ActionEvent event) {
-
+    void onActionModifyProduct(ActionEvent event) throws IOException {
+        productSelected = productTableView.getSelectionModel().getSelectedItem();
+        if (productSelected == null){
+            alertMessageType(2);
+        } else{
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/ModifyProductMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();}
     }
 
     public static Part selectPartModify(){
         return partSelected;
     }
 
-
+//    public static Product selectProductMod(){
+//        return productSelected;
+//    }
 
     public static void alertMessageType(int alertID) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -143,6 +157,12 @@ public class MainScreenController implements Initializable {
                 alert.setTitle("Error");
                 alert.setHeaderText("Error: Part Addition");
                 alert.setContentText("Part must be selected");
+                alert.showAndWait();
+                break;
+            case 2:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Product Modification");
+                alert.setContentText("Product must be selected");
                 alert.showAndWait();
                 break;
         }

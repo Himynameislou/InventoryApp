@@ -17,11 +17,12 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static model.DataProvider.*;
 
-public class AddProductMenuController implements Initializable {
+public class ModifyProductMenuController implements Initializable{
     Stage stage;
     Parent scene;
     /**
@@ -80,6 +81,8 @@ public class AddProductMenuController implements Initializable {
     @FXML
     private TableColumn<Part, Double> compPartPriceCol;
 
+    Product productToModify;
+
     @FXML
     void onActionAddPartToProduct(ActionEvent event) {
         Part selectAssociatedPart = partTableView.getSelectionModel().getSelectedItem();
@@ -93,10 +96,14 @@ public class AddProductMenuController implements Initializable {
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
+        Alert warning = new Alert(Alert.AlertType.CONFIRMATION, "Warning, none of your edits will be saved. Are you sure you want to cancel?");
+        Optional<ButtonType> clickOkToCancel = warning.showAndWait();
+        if(clickOkToCancel.isPresent() && clickOkToCancel.get() == ButtonType.OK){
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/MainScreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+        }
     }
 
     @FXML
@@ -116,12 +123,7 @@ public class AddProductMenuController implements Initializable {
          * For Loop that sets up and assigns unique ID for new parts
          */
         try {
-            int id = 0;
-            for (Product product : DataProvider.getAllProducts()) {
-                if (product.getProductID() > id)
-                    id = (product.getProductID());
-                id = ++id;
-            }
+            int id = productToModify.getProductID();
 
             String productName = productNameTextField.getText();
             int inventory = Integer.parseInt(productInventoryTextField.getText());
@@ -143,6 +145,7 @@ public class AddProductMenuController implements Initializable {
                     newProduct.addProductPart(part);
                 }
                 DataProvider.addProduct(newProduct);
+                DataProvider.swapProductModifyMenu(productToModify);
                 onActionCancel(event);
             }
         } catch (Exception e){
@@ -252,5 +255,19 @@ public class AddProductMenuController implements Initializable {
         //Adding sorted and filtered data to the table.
         partTableView.setItems(sortedPartData);
 
+        /**
+         * Populating all necessary fields for product modification
+         */
+
+        productToModify = MainScreenController.getProductSelected();
+        assParts = productToModify.getAssociatedProductParts();
+        componentProductParts.setItems(assParts);
+
+        productIDTextField.setText(String.valueOf(productToModify.getProductID()));
+        productNameTextField.setText(productToModify.getProductName());
+        productInventoryTextField.setText(String.valueOf(productToModify.getProductStock()));
+        productPriceTextField.setText(String.valueOf(productToModify.getProductPrice()));
+        productMaxTextField.setText(String.valueOf(productToModify.getProductMax()));
+        productMinTextField.setText(String.valueOf(productToModify.getProductMin()));
     }
 }
