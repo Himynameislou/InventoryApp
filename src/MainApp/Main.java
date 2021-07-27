@@ -17,6 +17,10 @@ import model.Product;
  *
  * @author luisvegerano
  */
+
+/**
+ * JavaDoc located in folder JavaDoc within the InventoryApp project folder. InventoryApp>JavaDoc
+ */
 public class Main extends Application {
 
     @Override
