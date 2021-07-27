@@ -102,4 +102,13 @@ public class DataProvider {
             return false;
         }
     }
+
+    public static boolean deleteProduct(Product selectedProdToDel){
+        if(allProducts.contains(selectedProdToDel)){
+            allProducts.remove(selectedProdToDel);
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

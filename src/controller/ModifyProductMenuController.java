@@ -82,6 +82,7 @@ public class ModifyProductMenuController implements Initializable{
     private TableColumn<Part, Double> compPartPriceCol;
 
     Product productToModify;
+    int selectedProductIndex;
 
     @FXML
     void onActionAddPartToProduct(ActionEvent event) {
@@ -96,7 +97,7 @@ public class ModifyProductMenuController implements Initializable{
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
-        Alert warning = new Alert(Alert.AlertType.CONFIRMATION, "Warning, none of your edits will be saved. Are you sure you want to cancel?");
+        Alert warning = new Alert(Alert.AlertType.CONFIRMATION, "Warning, edits are about to be saved. Do you wish to continue?");
         Optional<ButtonType> clickOkToCancel = warning.showAndWait();
         if(clickOkToCancel.isPresent() && clickOkToCancel.get() == ButtonType.OK){
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();

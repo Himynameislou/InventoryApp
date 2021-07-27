@@ -106,7 +106,24 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void onActionDeleteProduct(ActionEvent event) {
+        Product selectProductToDelete = productTableView.getSelectionModel().getSelectedItem();
+        if(selectProductToDelete == null){
+            alertMessageType(2);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Alert");
+            alert.setContentText("Do you want to delete the selected product?");
+            Optional<ButtonType> result = alert.showAndWait();
 
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                ObservableList<Part> assParts = selectProductToDelete.getAssociatedProductParts();
+                if(assParts.size() >=1){
+                    alertMessageType(3);
+                } else {
+                    DataProvider.deleteProduct(selectProductToDelete);
+                }
+            }
+        }
     }
 
     @FXML
@@ -143,10 +160,6 @@ public class MainScreenController implements Initializable {
         return partSelected;
     }
 
-//    public static Product selectProductMod(){
-//        return productSelected;
-//    }
-
     public static void alertMessageType(int alertID) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
@@ -163,6 +176,12 @@ public class MainScreenController implements Initializable {
                 alert.setTitle("Error");
                 alert.setHeaderText("Error: Product Modification");
                 alert.setContentText("Product must be selected");
+                alert.showAndWait();
+                break;
+            case 3:
+                alert.setTitle("Error");
+                alert.setHeaderText("Error: Parts Associated");
+                alert.setContentText("All associated parts parts must be removed first before product can be deleted");
                 alert.showAndWait();
                 break;
         }
@@ -260,9 +279,5 @@ public class MainScreenController implements Initializable {
         sortedProductData.comparatorProperty().bind(productTableView.comparatorProperty());
         //Adding sorted and filtered data to the table.
         productTableView.setItems(sortedProductData);
-
     }
-
-
-
 }
