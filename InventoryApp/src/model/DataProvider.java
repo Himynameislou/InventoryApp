@@ -76,6 +76,12 @@ public class DataProvider {
     {
         return ++partID;
     }
+
+    /**
+     * Swaps Main Menu part for modified port after Modified part is saved
+     * @param selectedPart
+     * @return
+     */
     public static boolean swapPartModifyMenu(Part selectedPart){
         if(allParts.contains(selectedPart)){
             allParts.remove(selectedPart);
@@ -86,7 +92,7 @@ public class DataProvider {
     }
 
     /**
-     * Swaps Main Menu part for modified part after Modified part is saved
+     * Swaps Main Menu product for modified product after Modified product is saved
      * @param selectedProduct
      * @return
      */
