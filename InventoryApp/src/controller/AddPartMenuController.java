@@ -231,7 +231,7 @@ public class AddPartMenuController implements Initializable {
             case 5:
                 alert.setTitle("Error");
                 alert.setHeaderText("Error: Blank fields");
-                alert.setContentText("Cannot have blank fields");
+                alert.setContentText("Cannot have blank or invalid fields");
                 alert.showAndWait();
                 break;
             case 6:
