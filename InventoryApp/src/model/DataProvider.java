@@ -85,7 +85,11 @@ public class DataProvider {
         }
     }
 
-
+    /**
+     * Swaps Main Menu part for modified part after Modified part is saved
+     * @param selectedProduct
+     * @return
+     */
     public static boolean swapProductModifyMenu(Product selectedProduct){
         if(allProducts.contains(selectedProduct)){
             allProducts.remove(selectedProduct);
@@ -95,6 +99,11 @@ public class DataProvider {
         }
     }
 
+    /**
+     * Deletes part from main menu
+     * @param partToDelete
+     * @return
+     */
     public static boolean deletePartMain(Part partToDelete){
         if(allParts.contains(partToDelete)){
             allParts.remove(partToDelete);
@@ -104,6 +113,11 @@ public class DataProvider {
         }
     }
 
+    /**
+     * Deletes product from main menu
+     * @param selectedProdToDel
+     * @return
+     */
     public static boolean deleteProduct(Product selectedProdToDel){
         if(allProducts.contains(selectedProdToDel)){
             allProducts.remove(selectedProdToDel);

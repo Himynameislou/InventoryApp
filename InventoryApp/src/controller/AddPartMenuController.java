@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
  * Controller class that is responsible for all new parts added to inventory. Gives user functionality to add part name, inventory, price, max, min, and machine ID.
  * @author luisvegerano
  */
+
 public class AddPartMenuController implements Initializable {
     Stage stage;
     Parent scene;
