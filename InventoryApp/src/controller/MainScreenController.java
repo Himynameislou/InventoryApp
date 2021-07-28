@@ -19,6 +19,7 @@ import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -286,6 +287,10 @@ public class MainScreenController implements Initializable {
         }
     }
 
+
+
+
+
     /**
      * Initializes controller
      * @param url
@@ -310,6 +315,7 @@ public class MainScreenController implements Initializable {
         /**
          * Searching through partTableView without the need of a search button.
          */
+
         //Wrapping list in a filtered list
         FilteredList<Part> filteredPartList = new FilteredList<>(getAllParts(), b -> true);
         //Setting filter predicate for when filter changes
@@ -338,6 +344,7 @@ public class MainScreenController implements Initializable {
         sortedPartData.comparatorProperty().bind(partTableView.comparatorProperty());
         //Adding sorted and filtered data to the table.
         partTableView.setItems(sortedPartData);
+
 
 
         /**
